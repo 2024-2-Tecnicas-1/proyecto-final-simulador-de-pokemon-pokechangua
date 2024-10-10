@@ -8,9 +8,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class ArchivosConexion {
+    
+    static String ruta = "PokeChangua/proyecto-final-simulador-de-pokemon-pokechangua/datos/";
+
     public static void guardar(Object objeto, String nombreArchivo){
 
-        File file = new File ("datos/" + nombreArchivo);
+        File file = new File (ruta + nombreArchivo);
 
         try (FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
@@ -26,7 +29,7 @@ public class ArchivosConexion {
 
         Object objeto = null;
 
-        File file = new File("datos/" + nombreArchivo);
+        File file = new File(ruta + nombreArchivo);
         
         if (file.exists()) {
             try (FileInputStream fileIn = new FileInputStream(file) ; ObjectInputStream in = new ObjectInputStream(fileIn)) {
