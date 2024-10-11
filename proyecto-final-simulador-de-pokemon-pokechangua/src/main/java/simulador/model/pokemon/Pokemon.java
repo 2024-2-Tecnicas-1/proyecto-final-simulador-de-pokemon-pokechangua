@@ -65,7 +65,7 @@ public class Pokemon implements Serializable{
         double multiplicador = TipoPokemon.obtenerMultiplicadorDeDaño(this.tipo, oponente.getTipo());
         double daño = this.puntosDeAtaque * multiplicador;
         return daño;
-    }
+    }//atacar
 
     //Complejidad temporal: O(1) Tiempo constante
     public void recibirDaño(double daño) {
@@ -73,16 +73,13 @@ public class Pokemon implements Serializable{
         if (this.salud <= 0) {
             this.salud = 0;
             this.estado = Estado.DEBILITADO;
-            //TODO: Enviar mensaje que el pokémon ha sido debilitado.
         }
-    }
+    }//recibirDaño
 
     //Complejidad temporal: O(1) Tiempo constante
     public void entrenar() {
         this.puntosDeAtaque += 20;
         this.salud += 5;
-        //TODO: Enviar mensaje que el pokémon ha sido entrenado.
-    }
+    }//entrenar
     
-
-}
+}//class

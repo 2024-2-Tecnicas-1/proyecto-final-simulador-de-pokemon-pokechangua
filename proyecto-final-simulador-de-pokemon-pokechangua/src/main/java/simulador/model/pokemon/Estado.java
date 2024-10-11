@@ -6,4 +6,4 @@ public enum Estado implements Serializable {
 
     NORMAL, DEBILITADO;
     
-}
+}//class

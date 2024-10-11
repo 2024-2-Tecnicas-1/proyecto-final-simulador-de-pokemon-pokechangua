@@ -43,7 +43,7 @@ public enum TipoPokemon implements Serializable {
 
             default:
                 return 1.0;
-        }
+        }//switch
         return 0;
-    }
-}
+    }//obtenerMultiplicadorDeDaño
+}//class
