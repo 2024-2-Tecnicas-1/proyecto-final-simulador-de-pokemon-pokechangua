@@ -17,6 +17,7 @@ public class Vista {
     // > > > > > > > > > > > > > > > > > > > > - < < < < < < < < < < < < < < < < < < < < //
 
     public static void menuPrincipal(){
+        espacioVisual();
         System.out.println(
                         "       ,___          .-;'   "+  "|  | » » »     MENÚ PRINCIPAL     « « « |  |   ';-.          ___,\n" + //
                         "       `\"-.`\\_...._/`.`     "+"|  |                                    |  |    `.`\\_...._/`.-\"`\n" + //
@@ -35,6 +36,7 @@ public class Vista {
     }//menuPrincipal
 
     public static void menuGestionarEntrenadores(){//1
+        espacioVisual();
         System.out.println(
                         "       ,___          .-;'   "+  "|  | » » » GESTIONAR ENTRENADORES « « « |  |   ';-.          ___,\n" + //
                         "       `\"-.`\\_...._/`.`     "+"|  |                                    |  |    `.`\\_...._/`.-\"`\n" + //
@@ -53,6 +55,7 @@ public class Vista {
     }//menuGestionarEntrenadores
 
     public static void menuGestionarPokemones(){//2
+        espacioVisual();
         System.out.println(
                         "       ,___          .-;'   "+  "|  | » » »  GESTIONAR  POKEMONES  « « « |  |   ';-.          ___,\n" + //
                         "       `\"-.`\\_...._/`.`     "+"|  |                                    |  |    `.`\\_...._/`.-\"`\n" + //
@@ -71,6 +74,7 @@ public class Vista {
     }//menuGestionarPokemones
 
     public static void menuIniciarBatalla(){//3
+        espacioVisual();
         System.out.println(
                         "       ,___          .-;'   "+  "|  | » » »    INICIAR  BATALLA    « « « |  |   ';-.          ___,\n" + //
                         "       `\"-.`\\_...._/`.`     "+"|  |                                    |  |    `.`\\_...._/`.-\"`\n" + //
@@ -88,7 +92,27 @@ public class Vista {
                         "");
     }//menuIniciarBatalla
 
+    public static void menuOpcionesEntrenador(){
+        espacioVisual();
+        System.out.println(
+                        "       ,___          .-;'   "+  "|  | » » » OPCIONES DE ENTRENADOR « « « |  |   ';-.          ___,\n" + //
+                        "       `\"-.`\\_...._/`.`     "+"|  |                                    |  |    `.`\\_...._/`.-\"`\n" + //
+                        "    ,      \\        /       "+ "|  |  [1] | Ver equipo de pokemones.    |  |      \\        /      ,\n" + //
+                        " .-' ',    / ()   ()\\       "+ "|  |                                    |  |      /()   () \\    .' `-.\n" + //
+                        "`'._   \\  /()   .   (|      "+ "|  |  [2] | Agregar pokémon al equipo.  |  |     |)   .   ()\\  /   _.'`\n" + //
+                        "    > .' ;,    -'-  /       "+  "|  |                                    |  |      \\  -'-    ,; '. <\n" + //
+                        "   / <   |;,     __.;       "+  "|  |  [3] | Entrenar pokémon.           |  |      ;.__     ,;|   > \\\n" + //
+                        "   '-.'-.|  , \\    , \\      "+"|  |                                    |  |     / ,    / ,  |.-'.-'\n" + //
+                        "      `>.|;, \\_)    \\_)     "+"|  |  [4] | Volver al menu anterior.    |  |    (_/    (_/ ,;|.<'\n" + //
+                        "       `-;     ,    /       "+  "|  |                                    |  |       \\    ,     ;-'\n" + //
+                        "          \\    /   <        "+ "|  |  [0] | Salir.                      |  |        >   \\    /\n" + //
+                        "           '. <`'-._)       "+  "|  |                                    |  |       (_,-'`> .'\n" + //
+                        "            '._)            "+  "|  | » » »      PokeChangua       « « « |  |           (_,'\n" + //
+                        "");
+    }//menuOpcionesEntrenador
+
     public static void pikaPika(){
+        espacioVisual();
         System.out.print(
                         "🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨\n" + //
                         "🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨🟨\n" + //
