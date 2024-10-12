@@ -1,11 +1,13 @@
 package simulador.model.pokemones;
 
+import java.util.EnumSet;
+
 import simulador.model.pokemon.Pokemon;
 import simulador.model.pokemon.TipoPokemon;
 
 public class Tentacool extends Pokemon{
 
-    public Tentacool(String nombre, double salud, double puntosDeAtaque, TipoPokemon tipo) {
+    public Tentacool(String nombre, double salud, double puntosDeAtaque, EnumSet<TipoPokemon> tipo) {
         super(nombre, salud, puntosDeAtaque, tipo);
     }
 }

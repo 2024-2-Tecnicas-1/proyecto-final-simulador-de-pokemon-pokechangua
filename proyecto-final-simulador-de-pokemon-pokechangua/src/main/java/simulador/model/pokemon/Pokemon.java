@@ -1,15 +1,16 @@
 package simulador.model.pokemon;
 
 import java.io.Serializable;
+import java.util.EnumSet;
 
 public class Pokemon implements Serializable{
     protected String nombre;
     protected double salud;
     protected double puntosDeAtaque;
-    protected TipoPokemon tipo;
+    protected EnumSet<TipoPokemon> tipo;
     protected Estado estado;
 
-    public Pokemon(String nombre, double salud, double puntosDeAtaque, TipoPokemon tipo) {
+    public Pokemon(String nombre, double salud, double puntosDeAtaque, EnumSet<TipoPokemon> tipo) {
         this.nombre = nombre;
         this.salud = salud;
         this.puntosDeAtaque = puntosDeAtaque;
@@ -41,7 +42,7 @@ public class Pokemon implements Serializable{
         this.puntosDeAtaque = puntosDeAtaque;
     }
 
-    public TipoPokemon getTipo() {
+    public EnumSet<TipoPokemon> getTipo() {
         return tipo;
     }
 
@@ -51,8 +52,14 @@ public class Pokemon implements Serializable{
 
     //Complejidad temporal: O(1) Tiempo constante
     public double atacar(Pokemon oponente) {
-        double multiplicador = TipoPokemon.obtenerMultiplicadorDeDaño(this.tipo, oponente.getTipo());
+        double multiplicador = 1.0;
+
+        for (TipoPokemon tipoAtacante : this.tipo) {
+            multiplicador *= TipoPokemon.obtenerMultiplicadorDeDaño(tipoAtacante, oponente.getTipo());
+        }
+
         double daño = this.puntosDeAtaque * multiplicador;
+        
         return daño;
     }//atacar
 
