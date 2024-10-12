@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 import simulador.controller.Controlador;
+import simulador.model.pokemon.Estado;
 import simulador.model.pokemon.Pokemon;
 import simulador.model.pokemon.TipoPokemon;
 import simulador.view.Vista;
@@ -57,18 +58,19 @@ public class Entrenador implements Serializable{
             ctrl.wait(ctrl.sg);
 
             Vista.espacioVisual();
-            Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>");
+            Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>");
             for (int i = 0; i < pokeLista.size(); i++) {
 
                 String pokeNombre = pokeLista.get(i).getNombre();
                 double pokeSalud = pokeLista.get(i).getSalud();
                 double pokeAtaque = pokeLista.get(i).getPuntosDeAtaque();
                 TipoPokemon pokeTipo = pokeLista.get(i).getTipo();
+                Estado pokeEstado = pokeLista.get(i).getEstado();
 
-                Vista.mostrarLinea("    ["+(i+1)+"]  " + pokeNombre + "     Salud -> " + pokeSalud + "     Ataque -> " + pokeAtaque + "     Tipo -> " + pokeTipo);
+                Vista.mostrarLinea("    ["+(i+1)+"]  " + pokeNombre + "     Salud -> " + pokeSalud + "     Ataque -> " + pokeAtaque + "     Tipo -> " + pokeTipo + "     Estado -> " + pokeEstado);
                 
             }// for
-            Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>\n\n");
+            Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>\n\n");
             //ctrl.wait(ctrl.sg);
 
         }//if
