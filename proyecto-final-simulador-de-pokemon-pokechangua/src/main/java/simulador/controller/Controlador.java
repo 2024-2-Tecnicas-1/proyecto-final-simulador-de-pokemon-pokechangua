@@ -1,40 +1,47 @@
 package simulador.controller;
 
+import java.io.Serializable;
 import java.util.*;
 
-import simulador.controller.batalla.Batalla;
-import simulador.controller.persistencia.ArchivosConexion;
+import simulador.controller.batalla.*;
+import simulador.controller.persistencia.*;
 import simulador.model.entrenador.*;
 import simulador.model.pokemon.*;
 import simulador.model.pokemones.*;
-import simulador.view.Vista;
+import simulador.view.*;
 
-@SuppressWarnings("unused")
-public class Controlador {
+public class Controlador implements Serializable {
 
-    public int sg = 2;
-    private int option;
-    private String busqueda;
-    private int menuActual;
-    private int entrenadorSeleccionado;
-    private int pokemonSeleccionado;
-    private int entrenadorBatalla1 = -1;
-    private int entrenadorBatalla2 = -1;
-    private Pokemon pokemonBatalla1;
-    private Pokemon pokemonBatalla2;
-    private Pokemon pokemonDeEntrenamiento;
-
+    //Primera vez entrando a los menús
     private boolean firstGestionarEntrenadores = true;
     private boolean firstSeleccionarEntrenador = true;
     private boolean firstGestionarPokemones = true;
     private boolean firstIniciarBatalla = true;
-    private boolean firstDuranteLaBatalla = true;
-    private boolean verif = true;
-    private String nombrePokemonGanador;
 
+    //Guardar partida
+    private boolean guardar = false; //interacción manual
+
+    //Modificador de tiempo entre mensajes
+    final public int sg = 1; //interacción manual -> Original = 2
+
+    //option general de switches
+    private int option;
+
+    //seleccionadores
+    private int entrenadorSeleccionado;
+    private int pokemonSeleccionado;
+
+    private int entrenadorBatalla1 = -1;
+    private int entrenadorBatalla2 = -1;
+
+    private Pokemon pokemonBatalla1;
+    private Pokemon pokemonBatalla2;
+
+    //listas
     private LinkedList<Pokemon> pokemonesDisponibles = new LinkedList<>();
     private LinkedList<Entrenador> pokeEntrenadores = new LinkedList<>();
 
+    //nombres de archivos
     final String Archivo_Pokemones = "ListaDePokemones.pokechangua";
     final String Archivo_Entrenadores = "ListaDeEntrenadores.pokechangua";
 
@@ -73,12 +80,6 @@ public class Controlador {
     public void seleccionarEntrenador(){
 
         entrenadorSeleccionado = -1; //Reset
-
-        if (firstSeleccionarEntrenador == true){
-            Vista.mostrarMensaje(" <> ¡Has seleccionado « Seleccionar Entrenador » ! <>");
-            wait(sg);
-            firstSeleccionarEntrenador = false;
-        }//if
 
         if (pokeEntrenadores.isEmpty()) {
 
@@ -128,7 +129,7 @@ public class Controlador {
         }
         Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>\n\n");
 
-        int seleccion = Integer.parseInt(Vista.pedirString("Elige el pokémon a registrar"))-1;
+        int seleccion = Integer.parseInt(Vista.pedirString("Selecciona un pokémon"))-1;
 
         pokemonSeleccionado = checkPokemon(seleccion);
 
@@ -137,18 +138,44 @@ public class Controlador {
 
     }//seleccionarPokemon
 
-    //Complejidad temporal: O(1) Tiempo constante
+    //Complejidad temporal: O(log n) Tiempo logarítmico
     public void salir(){
 
-        Vista.mostrarMensaje("Guardando estadísticas...");
-        wait(sg);
+        if(guardar == false){
 
-        Vista.mostrarMensaje("Guardando pokemones...");
-        wait(sg);
+            String dato = "";
 
-        guardarPartida(pokemonesDisponibles, pokeEntrenadores);
+            while(!dato.equalsIgnoreCase("Y") &&  !dato.equalsIgnoreCase("N")){
 
-        Vista.mostrarMensaje(" <> » » » Saliendo de PokeMondonGo « « « <>");
+                Vista.mostrarMensaje("No se guardarán los datos...");
+                dato = Vista.pedirString("¿Desea guardar los datos? (Y/N)");
+
+                if(dato.equalsIgnoreCase("Y")){
+                    guardar = true;
+                }else if(dato.equalsIgnoreCase("N")){
+                    guardar = false;
+                }else{
+                    Vista.mostrarMensaje(" <> ¡Debe seleccionar una opción válida! <>");
+                    wait(sg);
+                }//if
+
+            }//while
+
+        }//if
+
+        if(guardar == true){
+
+            Vista.mostrarMensaje("Guardando estadísticas...");
+            wait(sg);
+
+            Vista.mostrarMensaje("Guardando pokemones...");
+            wait(sg);
+
+            guardarPartida(pokemonesDisponibles, pokeEntrenadores);
+
+        }//if
+
+        Vista.mostrarMensaje(" <> » » » Saliendo de PokeChangua « « « <>");
         wait(sg);
 
         Vista.pikaPika();
@@ -227,6 +254,7 @@ public class Controlador {
                 wait(sg-1);
 
                 String nombreEntrenador = Vista.pedirString("Ingrese el nombre del nuevo entrenador");
+
                 LinkedList<Pokemon> pokeLista = new LinkedList<>();
 
                 Entrenador nuevoEntrenador = new Entrenador(nombreEntrenador, pokeLista);
@@ -281,8 +309,20 @@ public class Controlador {
 
                 break;
             case 3:
+            
+                if (firstSeleccionarEntrenador == true){
+                    Vista.mostrarMensaje(" <> ¡Has seleccionado « Seleccionar Entrenador » ! <>");
+                    wait(sg);
+                    firstSeleccionarEntrenador = false;
+                }//if
 
                 seleccionarEntrenador();
+
+                while(option != 4){
+                    Vista.menuOpcionesEntrenador();
+                    option = Integer.parseInt(Vista.pedirString("Seleccione una opción"));
+                    switchOpcionesEntrenador(option,entrenadorSeleccionado);
+                }
 
                 firstSeleccionarEntrenador = true;
 
@@ -327,6 +367,8 @@ public class Controlador {
                 }
                 Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>\n\n");
                 wait(sg*3);
+
+                switchMenuPrincipal(2);
 
                 break;
             case 2:
@@ -408,7 +450,7 @@ public class Controlador {
                     Vista.mostrarMensaje(" -> ERROR: ¡No has seleccionado un entrenador para la batalla!");
                     wait(sg);
 
-                    switchIniciarBatalla(1);
+                    switchMenuPrincipal(3);
 
                 }else{
 
@@ -425,7 +467,7 @@ public class Controlador {
                     Vista.mostrarMensaje(" -> ERROR: ¡No has seleccionado un entrenador para la batalla!");
                     wait(sg);
 
-                    switchIniciarBatalla(2);
+                    switchMenuPrincipal(3);
 
                 }else{
 
@@ -436,61 +478,183 @@ public class Controlador {
                 }
                 break;
             case 5:
-                //TODO: Aquí me quedé
-                if (pokeEntrenadores.get(entrenadorBatalla1).equals(null) || pokeEntrenadores.get(entrenadorBatalla2).equals(null)) {
-                    System.out.println("> > > Te falta seleccionar un entrenador.");
-                    System.out.println(""); //Espacio visual
-                    miniMenu(7);
-                    break;
-                } else if (pokemonBatalla1.equals(null) || pokemonBatalla2.equals(null)) {
-                    System.out.println("> > > Te falta seleccionar un pokémon.");
-                    System.out.println(""); //Espacio visual
-                    miniMenu(7);
-                    break;
+
+                if (entrenadorBatalla1 == -1) {
+                    
+                    Vista.mostrarMensaje(" -> ERROR: ¡No has seleccionado un entrenador para la batalla!");
+                    wait(sg);
+
+                } else if(entrenadorBatalla2 == -1){
+
+                    Vista.mostrarMensaje(" -> ERROR: ¡No has seleccionado un entrenador para la batalla!");
+                    wait(sg);
+
+                }else if (pokemonBatalla1.equals(null)) {
+
+                    Vista.mostrarMensaje(" -> ERROR: ¡No has seleccionado un pokémon para la batalla!");
+                    wait(sg);
+                    
+                } else if(pokemonBatalla2.equals(null)) {
+                    
+                    Vista.mostrarMensaje(" -> ERROR: ¡No has seleccionado un pokémon para la batalla!");
+                    wait(sg);
+                    
                 } else {
-                    Batalla.iniciarBatalla(pokemonBatalla1, pokemonBatalla2, verif, nombrePokemonGanador);
-                }
 
+                    Batalla battle = new Batalla();
+                    String nombrePokemonGanador = battle.iniciarBatalla(pokemonBatalla1, pokemonBatalla2);
 
-                break;
-            case 6: //✅
+                    Vista.mostrarMensaje("   <> POKÉMON GANADOR:   » " + nombrePokemonGanador + " «   <>");
+                    wait(sg);
 
-                System.out.println(" \n \n \n \n \n \n"); //Espacio visual
-                System.out.println("Regresando al menú principal...");     
-                System.out.println(" \n \n \n \n \n \n"); //Espacio visual
-
-                wait(sg);
-
-                menu1();
+                    switchMenuPrincipal(3);
+                }//if 
 
                 break;
-            case 7: //✅
-                
-                System.out.println(" \n \n \n \n \n \n"); //Espacio visual
-                System.out.println("Guardando estadísticas...");     
-                System.out.println(" \n \n \n \n \n \n"); //Espacio visual
-        
+            case 6:
+
+                Vista.mostrarMensaje("Regresando al menú principal...");
                 wait(sg);
 
-                System.out.println(" \n \n \n \n \n \n"); //Espacio visual
-                System.out.println("Guardando pokemones...");     
-                System.out.println(" \n \n \n \n \n \n"); //Espacio visual
+                firstIniciarBatalla = true;
+                runMenuPrincipal();
+
+                break;
+            case 0:
 
                 salir();
 
                 break;
-            default: //✅
-                System.out.println(" \n \n \n \n \n \n "); //Espacio visual
-                System.out.println("¡ Debes seleccionar una opción válida s!");
-                System.out.println(" \n \n \n \n \n \n "); //Espacio visual
+            default:
 
+                Vista.mostrarMensaje(" <> ¡Debe seleccionar una opción válida! <>");
                 wait(sg);
 
-                menuIniciarBatalla();
+                switchMenuPrincipal(3);
                 
                 break;
         }//cierra switch
     }//cierra switchIniciarBatalla
+
+    //Complejidad temporal: O(1) Tiempo constante
+    public void switchOpcionesEntrenador(int option, int entrenadorSeleccionado){
+        switch (option){
+            case 1:
+                
+                Vista.mostrarMensaje(" <> ¡Has seleccionado « Ver equipo de pokemones » ! <>");
+                wait(sg);
+
+                pokeEntrenadores.get(entrenadorSeleccionado).mostrarPokemones();
+                wait(sg*2);
+
+                break;
+            case 2:
+
+                Vista.mostrarMensaje(" <> ¡Has seleccionado « Agregar pokémon al equipo » ! <>");
+                wait(sg);
+
+                seleccionarPokemon();
+
+                Pokemon pokemonAñadir =  null;
+                switch (pokemonSeleccionado+1) {
+                    case 1:
+                        pokemonAñadir = newArticuno();
+                        break;
+                    case 2:
+                        pokemonAñadir = newCaterpie();
+                        break;
+                    case 3:
+                        pokemonAñadir = newCharmander();
+                        break;
+                    case 4:
+                        pokemonAñadir = newDiglett();
+                        break;
+                    case 5:
+                        pokemonAñadir = newDrowzee();
+                        break;
+                    case 6:
+                        pokemonAñadir = newHitmonlee();
+                        break;
+                    case 7:
+                        pokemonAñadir = newJolteon();
+                        break;
+                    case 8:
+                        pokemonAñadir = newShellder();
+                        break;
+                    case 9:
+                        pokemonAñadir = newSnorlax();
+                        break;
+                    case 10:
+                        pokemonAñadir = newTentacool();
+                        break;
+                }//switch
+
+                pokeEntrenadores.get(entrenadorSeleccionado).agregarPokemon(pokemonAñadir);
+
+                Vista.mostrarMensaje("Agregando pokémon...");
+                wait(sg);
+
+                Vista.mostrarMensaje("   ☆ ☆ ☆ ¡Pokémon agregado al equipo con éxito! ☆ ☆ ☆   ");
+                wait(sg);
+
+                break;
+            case 3:
+
+                Vista.mostrarMensaje(" <> ¡Has seleccionado « Entrenar pokémon » ! <>");
+                wait(sg);
+
+                if (!pokeEntrenadores.get(entrenadorSeleccionado).getPokeLista().isEmpty()) {
+                    
+                    pokeEntrenadores.get(entrenadorSeleccionado).mostrarPokemones();
+                    pokemonSeleccionado = Integer.parseInt(Vista.pedirString("Seleccione un pokémon"))-1;
+                    Pokemon pokemonDeEntrenamiento = pokeEntrenadores.get(entrenadorSeleccionado).getPokeLista().get(pokemonSeleccionado);
+
+                    pokeEntrenadores.get(entrenadorSeleccionado).entrenarPokemon(pokemonDeEntrenamiento);
+
+                    Vista.mostrarMensaje("Entrenando pokémon...");
+                    wait(sg);
+
+                    Vista.mostrarMensaje("Creando lazos más fuertes con el entrenador...");
+                    wait(sg);
+
+                    Vista.mostrarMensaje("Perfeccionando movimientos...");
+                    wait(sg);
+
+                    Vista.mostrarMensaje("Aumentando autoestima...");
+                    wait(sg);
+
+                    Vista.mostrarMensaje("   ☆ ☆ ☆ ¡Pokémon entrenado con éxito! ☆ ☆ ☆   ");
+                    wait(sg);
+
+                } else {
+                    Vista.mostrarMensaje(" <> ¡ Oh oh, no tienes pokemones ! <> ");
+                    wait(sg);
+                }//if
+
+                break;
+            case 4:
+
+                Vista.mostrarMensaje("Regresando al menú anterior...");
+                wait(sg);
+
+                switchMenuPrincipal(1);
+
+                break;
+            case 0:
+
+                salir();
+
+                break;
+            default:
+
+                Vista.mostrarMensaje(" <> ¡Debe seleccionar una opción válida! <>");
+                wait(sg);
+
+                switchMenuPrincipal(1);
+                
+                break;
+        }//switch
+    }//switchOpcionesEntrenador
 
 
 
@@ -500,30 +664,80 @@ public class Controlador {
     @SuppressWarnings("unused")
     //Complejidad temporal: O(1) Tiempo constante
     private void cargarPrimerosPokemon(){
-        Pokemon Articuno = new Articuno("Articuno", 90, 85, TipoPokemon.HIELO.VOLADOR); //🅿️ TODO:Dos tipos.
+        Pokemon Articuno = newArticuno();
         pokemonesDisponibles.add(Articuno);
-        Pokemon Caterpie = new Caterpie("Caterpie", 45, 30, TipoPokemon.HIELO.BICHO); //🅿️ TODO:Dos tipos.
+        Pokemon Caterpie = newCaterpie();
         pokemonesDisponibles.add(Caterpie);
-        Pokemon Charmander = new Charmander("Charmander", 39, 52, TipoPokemon.FUEGO);
+        Pokemon Charmander = newCharmander();
         pokemonesDisponibles.add(Charmander);
-        Pokemon Diglett = new Diglett("Diglett", 10, 55, TipoPokemon.TIERRA);
+        Pokemon Diglett = newDiglett();
         pokemonesDisponibles.add(Diglett);
-        Pokemon Drowzee = new Drowzee("Drowzee", 60, 48, TipoPokemon.PSIQUICO);
+        Pokemon Drowzee = newDrowzee();
         pokemonesDisponibles.add(Drowzee);
-        Pokemon Hitmonlee = new Hitmonlee("Hitmonlee", 50, 120, TipoPokemon.LUCHA);
+        Pokemon Hitmonlee = newHitmonlee();
         pokemonesDisponibles.add(Hitmonlee);
-        Pokemon Jolteon = new Jolteon("Jolteon", 65, 65, TipoPokemon.ELECTRICO);
+        Pokemon Jolteon = newJolteon();
         pokemonesDisponibles.add(Jolteon);
-        Pokemon Shellder = new Shellder("Shellder", 30, 65, TipoPokemon.AGUA);
+        Pokemon Shellder = newShellder();
         pokemonesDisponibles.add(Shellder);
-        Pokemon Snorlax = new Snorlax("Snorlax", 160, 110, TipoPokemon.NORMAL);
+        Pokemon Snorlax = newSnorlax();
         pokemonesDisponibles.add(Snorlax);
-        Pokemon Tentacool = new Tentacool("Tentacool", 90, 85, TipoPokemon.AGUA.VENENO); //🅿️ TODO:Dos tipos.
+        Pokemon Tentacool = newTentacool();
         pokemonesDisponibles.add(Tentacool);
 
         ArchivosConexion.guardar(pokemonesDisponibles, Archivo_Pokemones);
         ArchivosConexion.guardar(pokeEntrenadores, Archivo_Entrenadores);
     }//cargarPrimerosPokemon
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newArticuno(){
+        return new Articuno("Articuno", 90, 85, TipoPokemon.HIELO.VOLADOR); //🅿️ TODO:Dos tipos.
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newCaterpie(){
+        return new Caterpie("Caterpie", 45, 30, TipoPokemon.HIELO.BICHO); //🅿️ TODO:Dos tipos.
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newCharmander(){
+        return new Charmander("Charmander", 39, 52, TipoPokemon.FUEGO);
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newDiglett(){
+        return new Diglett("Diglett", 10, 55, TipoPokemon.TIERRA);
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newDrowzee(){
+        return new Drowzee("Drowzee", 60, 48, TipoPokemon.PSIQUICO);
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newHitmonlee(){
+        return new Hitmonlee("Hitmonlee", 50, 120, TipoPokemon.LUCHA);
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newJolteon(){
+        return new Jolteon("Jolteon", 65, 65, TipoPokemon.ELECTRICO);
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newShellder(){
+        return new Shellder("Shellder", 30, 65, TipoPokemon.AGUA);
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newSnorlax(){
+        return new Snorlax("Snorlax", 160, 110, TipoPokemon.NORMAL);
+    }
+
+    //Complejidad temporal: O(1) Tiempo constante
+    private Pokemon newTentacool(){
+        return new Tentacool("Tentacool", 90, 85, TipoPokemon.AGUA.VENENO); //🅿️ TODO:Dos tipos.
+    }
 
     @SuppressWarnings("unchecked")
     //Complejidad temporal: O(1) Tiempo constante
