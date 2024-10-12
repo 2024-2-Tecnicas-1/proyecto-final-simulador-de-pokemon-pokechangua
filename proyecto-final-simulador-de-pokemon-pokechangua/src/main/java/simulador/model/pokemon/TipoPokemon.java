@@ -1,10 +1,23 @@
 package simulador.model.pokemon;
 
+import java.util.EnumSet;
+
 public enum TipoPokemon {
     FUEGO, AGUA, PLANTA, VENENO, ELECTRICO, PSIQUICO, ROCA, TIERRA, NORMAL, VOLADOR, HADA, LUCHA, ACERO, BICHO, HIELO, FANTASMA; 
 
+    //Complejidad temporal: O(n) Tiempo lineal
+    public static double obtenerMultiplicadorDeDaño(TipoPokemon atacante, EnumSet<TipoPokemon> defensores) {
+        double multiplicador = 1.0;
+    
+        for (TipoPokemon defensor : defensores) {
+            multiplicador *= obtenerMultiplicadorDeDañoIndividual(atacante, defensor);
+        }
+
+        return multiplicador;
+    }//obtenerMultiplicadorDeDaño
+
     //Complejidad temporal: O(1) Tiempo constante
-    public static double obtenerMultiplicadorDeDaño(TipoPokemon atacante, TipoPokemon defensor) {
+    public static double obtenerMultiplicadorDeDañoIndividual(TipoPokemon atacante, TipoPokemon defensor) {
         switch (atacante) {
 
             case FUEGO:
@@ -42,6 +55,6 @@ public enum TipoPokemon {
             default:
                 return 1.0;
         }//switch
-        return 0;
-    }//obtenerMultiplicadorDeDaño
+        return 1.0;
+    }//obtenerMultiplicadorDeDañoIndividual
 }//class

@@ -1,6 +1,7 @@
 package simulador.model.entrenador;
 
 import java.io.Serializable;
+import java.util.EnumSet;
 import java.util.LinkedList;
 
 import simulador.controller.Controlador;
@@ -64,7 +65,7 @@ public class Entrenador implements Serializable{
                 String pokeNombre = pokeLista.get(i).getNombre();
                 double pokeSalud = pokeLista.get(i).getSalud();
                 double pokeAtaque = pokeLista.get(i).getPuntosDeAtaque();
-                TipoPokemon pokeTipo = pokeLista.get(i).getTipo();
+                EnumSet<TipoPokemon> pokeTipo = pokeLista.get(i).getTipo();
                 Estado pokeEstado = pokeLista.get(i).getEstado();
 
                 Vista.mostrarLinea("    ["+(i+1)+"]  " + pokeNombre + "     Salud -> " + pokeSalud + "     Ataque -> " + pokeAtaque + "     Tipo -> " + pokeTipo + "     Estado -> " + pokeEstado);

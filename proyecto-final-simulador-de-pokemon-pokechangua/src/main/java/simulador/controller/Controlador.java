@@ -22,7 +22,7 @@ public class Controlador implements Serializable {
     private boolean guardar = false; //interacción manual
 
     //Modificador de tiempo entre mensajes
-    final public int sg = 1; //interacción manual -> Original = 2
+    final public int sg = 2; //interacción manual -> Original = 2
 
     //option general de switches
     private int option;
@@ -122,12 +122,12 @@ public class Controlador implements Serializable {
         wait(sg);
 
         Vista.espacioVisual();
-        Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>");
+        Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>");
         for (int i = 0; i < pokemonesDisponibles.size(); i++) {
             Pokemon p = pokemonesDisponibles.get(i);
             Vista.mostrarLinea("    ["+(i+1)+"]  " + p.getNombre() + "     Salud -> " + p.getSalud() + "     Ataque -> " + p.getPuntosDeAtaque() + "     Tipo -> " + p.getTipo());
         }
-        Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>\n\n");
+        Vista.mostrarLinea(" <> = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = <>\n\n");
 
         int seleccion = Integer.parseInt(Vista.pedirString("Selecciona un pokémon"))-1;
 
@@ -691,52 +691,52 @@ public class Controlador implements Serializable {
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newArticuno(){
-        return new Articuno("Articuno", 90, 85, TipoPokemon.HIELO.VOLADOR); //🅿️ TODO:Dos tipos.
+        return new Articuno("Articuno", 90, 85, EnumSet.of(TipoPokemon.HIELO, TipoPokemon.VOLADOR));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newCaterpie(){
-        return new Caterpie("Caterpie", 45, 30, TipoPokemon.HIELO.BICHO); //🅿️ TODO:Dos tipos.
+        return new Caterpie("Caterpie", 45, 30, EnumSet.of(TipoPokemon.HIELO, TipoPokemon.BICHO));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newCharmander(){
-        return new Charmander("Charmander", 39, 52, TipoPokemon.FUEGO);
+        return new Charmander("Charmander", 39, 52, EnumSet.of(TipoPokemon.FUEGO));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newDiglett(){
-        return new Diglett("Diglett", 10, 55, TipoPokemon.TIERRA);
+        return new Diglett("Diglett", 10, 55, EnumSet.of(TipoPokemon.TIERRA));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newDrowzee(){
-        return new Drowzee("Drowzee", 60, 48, TipoPokemon.PSIQUICO);
+        return new Drowzee("Drowzee", 60, 48, EnumSet.of(TipoPokemon.PSIQUICO));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newHitmonlee(){
-        return new Hitmonlee("Hitmonlee", 50, 120, TipoPokemon.LUCHA);
+        return new Hitmonlee("Hitmonlee", 50, 120, EnumSet.of(TipoPokemon.LUCHA));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newJolteon(){
-        return new Jolteon("Jolteon", 65, 65, TipoPokemon.ELECTRICO);
+        return new Jolteon("Jolteon", 65, 65, EnumSet.of(TipoPokemon.ELECTRICO));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newShellder(){
-        return new Shellder("Shellder", 30, 65, TipoPokemon.AGUA);
+        return new Shellder("Shellder", 30, 65, EnumSet.of(TipoPokemon.AGUA));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newSnorlax(){
-        return new Snorlax("Snorlax", 160, 110, TipoPokemon.NORMAL);
+        return new Snorlax("Snorlax", 160, 110, EnumSet.of(TipoPokemon.NORMAL));
     }
 
     //Complejidad temporal: O(1) Tiempo constante
     private Pokemon newTentacool(){
-        return new Tentacool("Tentacool", 90, 85, TipoPokemon.AGUA.VENENO); //🅿️ TODO:Dos tipos.
+        return new Tentacool("Tentacool", 90, 85, EnumSet.of(TipoPokemon.AGUA, TipoPokemon.VENENO));
     }
 
     @SuppressWarnings("unchecked")
