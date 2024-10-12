@@ -45,20 +45,9 @@ public class Pokemon implements Serializable{
         return tipo;
     }
 
-    /*/ <- Agregar * entre las barras para comentar método.
-    public void setTipo(TipoPokemon tipo) {
-        this.tipo = tipo;
-    }
-    //*/
     public Estado getEstado() {
         return estado;
     }
-
-    /*/ <- Agregar * entre las barras para comentar método.
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-    //*/
 
     //Complejidad temporal: O(1) Tiempo constante
     public double atacar(Pokemon oponente) {
