@@ -1,8 +1,6 @@
 package simulador.model.pokemon;
 
-import java.io.Serializable;
-
-public enum TipoPokemon implements Serializable {
+public enum TipoPokemon {
     FUEGO, AGUA, PLANTA, VENENO, ELECTRICO, PSIQUICO, ROCA, TIERRA, NORMAL, VOLADOR, HADA, LUCHA, ACERO, BICHO, HIELO, FANTASMA; 
 
     //Complejidad temporal: O(1) Tiempo constante
