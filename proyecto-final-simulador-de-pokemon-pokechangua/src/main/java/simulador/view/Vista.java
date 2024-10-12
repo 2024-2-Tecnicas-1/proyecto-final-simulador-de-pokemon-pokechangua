@@ -16,6 +16,7 @@ public class Vista {
     // > > > > > > > > > > > > > > > > > > M E N Ú S < < < < < < < < < < < < < < < < < < //
     // > > > > > > > > > > > > > > > > > > > > - < < < < < < < < < < < < < < < < < < < < //
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void menuPrincipal(){
         espacioVisual();
         System.out.println(
@@ -35,6 +36,7 @@ public class Vista {
                         "");
     }//menuPrincipal
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void menuGestionarEntrenadores(){//1
         espacioVisual();
         System.out.println(
@@ -54,6 +56,7 @@ public class Vista {
                         "");
     }//menuGestionarEntrenadores
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void menuGestionarPokemones(){//2
         espacioVisual();
         System.out.println(
@@ -73,6 +76,7 @@ public class Vista {
                         "");
     }//menuGestionarPokemones
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void menuIniciarBatalla(){//3
         espacioVisual();
         System.out.println(
@@ -92,6 +96,7 @@ public class Vista {
                         "");
     }//menuIniciarBatalla
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void menuOpcionesEntrenador(){
         espacioVisual();
         System.out.println(
@@ -111,6 +116,7 @@ public class Vista {
                         "");
     }//menuOpcionesEntrenador
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void pikaPika(){
         espacioVisual();
         System.out.print(
@@ -128,6 +134,7 @@ public class Vista {
                         " \n \n \n");
     }//pikaPika
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void interfazPokeChangua(){
         
     }//interfazPokeChangua
@@ -136,14 +143,17 @@ public class Vista {
     // > > > > > > > > > > > > > > > > > > O T R O S < < < < < < < < < < < < < < < < < < //
     // > > > > > > > > > > > > > > > > > > > > - < < < < < < < < < < < < < < < < < < < < //
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void mostrarLinea(String mensaje){
         System.out.println(mensaje);
     }
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void espacioVisual(){
         System.out.println(" \n \n \n \n \n \n \n");
     }
 
+    //Complejidad temporal: O(1) Tiempo constante
     public static void mostrarMensaje(String mensaje){
         espacioVisual();
         System.out.println(mensaje);

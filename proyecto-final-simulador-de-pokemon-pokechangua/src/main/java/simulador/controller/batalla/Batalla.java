@@ -10,7 +10,7 @@ public class Batalla {
 
     Controlador ctrl = new Controlador();
 
-    //Complejidad temporal: O() Tiempo logarítmico
+    //Complejidad temporal: O(log n) Tiempo logarítmico
     public String iniciarBatalla(Pokemon pokemon1, Pokemon pokemon2){
 
         String nombrePokemonGanador = "Ninguno ganó";
